@@ -1,9 +1,10 @@
 <template>
+  <div class="hide-on-med-and-up"><br></div>
   <div class="container fadein" >
   <div style="margin-right: 0.35em" class="right black-text" @click="showsearch = !showsearch">X</div>
   <h5 class="black-text"  @click="showsearch = !showsearch">Search</h5>
   <div class="row" v-show="showsearch">
-    <form class="col s12">
+    <form class="col s12 bold-text">
       <div class="row">
         <div class="input-field col s6">
           <input id="search" type="text" class="validate" name="s">
@@ -53,12 +54,12 @@
     </p>
     </div>
     <div class="input-field col s12">
-    <select name="coll">
+<!--   <select name="coll">
       <option value="all">Collection</option>
       <option value="1">Option 1</option>
       <option value="2">Option 2</option>
       <option value="3">Option 3</option>
-    </select>
+    </select>-->
   </div>
 
       </div>
@@ -91,8 +92,8 @@
         return {
           showsearch: false,
           collectionHTML: "",
-          backendurl: "http://127.0.0.1:5000/collections",
-          page: 1
+          page: 1,
+          backendurl: window.location.origin + "/collections"
         }
       },
     mounted: function() {
@@ -118,15 +119,13 @@
         if (this.$route.params.collection){
           urlparam["coll"] = this.$route.params.collection;
         }
-        else {
-          urlparam["coll"] = m.get('coll');
-        }
         urlparam["asc_desc"] = m.get('asc_desc');
         var param = new URLSearchParams(urlparam)
         url = this.backendurl + "?" + param.toString();
         this.fetchCollection(url);
       },
       fetchCollection: function(url) {
+                          document.getElementById("collection").innerHTML = `<div class="progress"><div class="indeterminate"></div></div>`;
                           fetch(url).then(response => {
                             response.text().then((text) => {
                               this.collectionHTML = text;
@@ -162,7 +161,7 @@
       padding: 0.4em;
       margin-top: 0.4em;
       margin-bottom: 1.5em;
-      background-color: #ffffffd4;
+      background-color: #fffffff4;
     }
 
     .card-content, .card-title {
