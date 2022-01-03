@@ -19,23 +19,22 @@
   export default {
     name: 'ViewItem',
     data: function(){
-      return {src: '', title: '', descr: '', artist: '', collection: '', created: ''}
+      return {src: '', title: '', descr: '', artist: '', collection: '', created: '', url: window.location.origin + "/get-item/"}
     },
     methods: {
     loadFromServer: function(){
         let id = this.$route.params.id;
-        let url = `http://127.0.0.1:5000/get-item/${id}`;
-        fetch(url).then(response => {
-            response.text().then((data) => {
-              data = JSON.parse(data);
-              this.src = data["img_src"];
-              this.title = data["title"];
-              this.descr = data["descr"];
-              this.artist = data["artist"];
-              this.collection = data["collection"];
-              this.created = data["created"];
-            })
-          });
+        fetch(this.url+id).then(response => {
+          response.text().then((data) => {
+            data = JSON.parse(data);
+            this.src = data["img_src"];
+            this.title = data["title"];
+            this.descr = data["descr"];
+            this.artist = data["artist"];
+            this.collection = data["collection"];
+            this.created = data["created"];
+          })
+        })
       },
       go: function() {
         window.location.href = this.src;
